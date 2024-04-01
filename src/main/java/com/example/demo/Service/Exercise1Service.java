@@ -22,7 +22,8 @@ import java.util.logging.Logger;
 @Service
 public class Exercise1Service {
 
-    private static final String UPLOAD_DIR = "C:\\Users\\2106791\\OneDrive - Cognizant\\Desktop\\Demo.xlsx";
+
+//    private static final String UPLOAD_DIR = "C:\\Users\\2106791\\OneDrive - Cognizant\\Desktop\\Demo.xlsx";
     private final Logger logger = Logger.getLogger(Exercise1Service.class.getName());
 
     public void processExcelFile(String file) throws IOException {
@@ -49,7 +50,7 @@ public class Exercise1Service {
 
                 logger.info(":: Writing file completed ::");
 
-                FileOutputStream updatedfile = new FileOutputStream(UPLOAD_DIR);
+                FileOutputStream updatedfile = new FileOutputStream(file);
                 workbook.write(updatedfile);
                 logger.info(":: Data Copied to Excel ::");
                 fileInputStream.close();
@@ -64,34 +65,35 @@ public class Exercise1Service {
 
     public void processExcelFileMultiPart(MultipartFile file) throws IOException {
         try  {
-            logger.info(":: File uploading started ::");
-            FileInputStream fileInputStream = new FileInputStream(file.getName());
-            logger.info(":: File "+file.getName()+" uploaded successfully and started reading it :: ");
-            Workbook workbook = new XSSFWorkbook(fileInputStream);
-            logger.info(":: Reading file sheet ::");
-            Sheet sheet = workbook.getSheetAt(0); // Assuming first sheet
+                logger.info(":: File uploading started ::");
+                FileInputStream fileInputStream = new FileInputStream(new File(Objects.requireNonNull(file.getOriginalFilename())).getAbsolutePath());
+                logger.info(":: File " + file.getName() + " uploaded successfully and started reading it :: ");
+                Workbook workbook = new XSSFWorkbook(fileInputStream);
+                logger.info(":: Reading file sheet ::");
+                Sheet sheet = workbook.getSheetAt(0); // Assuming first sheet
 
-            logger.info(sheet.getWorkbook()+" "+sheet.getSheetName());
-            // Read data from the first column
-            TreeMap<Double,String> columnData = readFirstColumn(sheet);
+                logger.info(sheet.getWorkbook() + " " + sheet.getSheetName());
+                // Read data from the first column
+                TreeMap<Double, String> columnData = readFirstColumn(sheet);
 
-            logger.info(":: Reading file completed ::");
+                logger.info(":: Reading file completed ::");
 
-            // Sort data in descending order
-            logger.info(":: sorted data :: "+columnData.toString());
+                // Sort data in descending order
+                logger.info(":: sorted data :: " + columnData.toString());
 
-            logger.info(":: Writing file invoked ::");
-            // Write sorted data back to the first column
-            writeFirstColumn(sheet, columnData);
+                logger.info(":: Writing file invoked ::");
+                // Write sorted data back to the first column
+                writeFirstColumn(sheet, columnData);
 
-            logger.info(":: Writing file completed ::");
+                logger.info(":: Writing file completed ::");
 
-            FileOutputStream updatedfile = new FileOutputStream(UPLOAD_DIR);
-            workbook.write(updatedfile);
-            logger.info(":: Data Copied to Excel ::");
-            fileInputStream.close();
-            updatedfile.close();
-            fileRename((File) file);
+                FileOutputStream updatedfile = new FileOutputStream(new File(file.getOriginalFilename()).getAbsolutePath());
+                workbook.write(updatedfile);
+                logger.info(":: Data Copied to Excel ::");
+                fileInputStream.close();
+                updatedfile.close();
+                fileRename(new File(file.getOriginalFilename()));
+
 
         }
         catch(Exception exception){
