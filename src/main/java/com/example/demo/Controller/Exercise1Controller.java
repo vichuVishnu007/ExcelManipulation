@@ -17,7 +17,7 @@ public class Exercise1Controller {
     @Autowired
     Exercise1Service exercise1Service;
 
-        private static final String UPLOAD_DIR = "C:\\Users\\Admin\\Desktop\\Demo.xlsx";
+        private static final String UPLOAD_DIR = "C:\\Users\\2106791\\OneDrive - Cognizant\\Desktop\\Demo.xlsx";
 
         @PostMapping("/uploads")
         @ResponseBody
@@ -29,5 +29,16 @@ public class Exercise1Controller {
                 return "Process failed .... " + e.getMessage();
             }
         }
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public String handleFileUploadMultiPart(@RequestParam("file") MultipartFile file) {
+        try{
+            exercise1Service.processExcelFileMultiPart(file);// sorting file column
+            return "Process completed.";
+        } catch (IOException e) {
+            return "Process failed .... " + e.getMessage();
+        }
+    }
 
 }
