@@ -142,7 +142,7 @@ public class Exercise1Service {
                     logger.info(":: File Renamed successfully to " + formattedDateTime + "_" + file.getName() + " ::");
                 }
                 catch(Exception e){
-                    logger.warning(":: Internal Error :: "+e.getMessage());
+                    logger.log(Level.WARNING,":: Internal Error :: "+e.getMessage());
                 }
             }
             else{
