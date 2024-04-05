@@ -22,8 +22,6 @@ import java.util.logging.Logger;
 @Service
 public class Exercise1Service {
 
-
-//    private static final String UPLOAD_DIR = "C:\\Users\\2106791\\OneDrive - Cognizant\\Desktop\\Demo.xlsx";
     private final Logger logger = Logger.getLogger(Exercise1Service.class.getName());
 
     public void processExcelFile(String file) throws IOException {
@@ -127,6 +125,7 @@ public class Exercise1Service {
             }
 
         }
+
 
         private void fileRename(File file){
             logger.info(":: File Rename Invoked ::");

@@ -14,8 +14,6 @@ public class Exercise1Controller {
     @Autowired
     Exercise1Service exercise1Service;
 
-//        private static final String UPLOAD_DIR = "C:\\Users\\2106791\\OneDrive - Cognizant\\Desktop\\Demo.xlsx";
-
         @PostMapping("/upload/path")
         public String handleFileUpload(@RequestParam("filePath") String filePath) {
             try{
